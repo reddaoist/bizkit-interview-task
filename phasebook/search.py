@@ -34,6 +34,8 @@ def search_users(args):
     age_matches = []
     occupation_matches = []
 
+    if not args:
+        return USERS
 
     for user in USERS:
         
@@ -54,6 +56,7 @@ def search_users(args):
             continue
 
     result = id_matches + name_matches + age_matches + occupation_matches
+    
     return result
 
 
