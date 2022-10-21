@@ -157,3 +157,17 @@ That means that with the examples above, the following request: http://127.0.0.1
     {"id": "4", "name": "John Smith", "age": 28, "occupation": "Architect"}
   ]
   ```
+
+
+## Playground
+Edits to include a playground to practice CRUD in python.
+CRUD operations are only executing in runtime and data changes aren't saved to any database.
+
+Five endpoints were added:
+- `[GET] users`
+- `[POST] users`
+- `[GET] users/<id>`
+- `[PUT] users/<id>`
+- `[DELETE] users/<id>`
+
+Added a postman collection for the endpoints.
