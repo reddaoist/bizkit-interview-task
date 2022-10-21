@@ -1,6 +1,6 @@
 from flask import Flask
 
-from . import match, search
+from . import match, search, crud
 
 
 def create_app():
@@ -12,5 +12,6 @@ def create_app():
 
     app.register_blueprint(match.bp)
     app.register_blueprint(search.bp)
+    app.register_blueprint(crud.bp)
 
     return app
