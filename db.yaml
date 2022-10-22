@@ -1,0 +1,5 @@
+mysql:
+  database: 'flaskapp'
+  host: 'localhost'
+  username: 'root'
+  password: 'password'
