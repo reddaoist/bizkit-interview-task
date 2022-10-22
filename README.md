@@ -159,7 +159,7 @@ That means that with the examples above, the following request: http://127.0.0.1
   ```
 
 
-## Playground
+## Playground v1
 Edits to include a playground to practice CRUD in python.
 CRUD operations are only executing in runtime and data changes aren't saved to any database.
 
@@ -171,3 +171,16 @@ Five endpoints were added:
 - `[DELETE] users/<id>`
 
 Added a postman collection for the endpoints.
+
+## Playground v2
+Added DB connection.
+DB used is MySQL
+ORM used is SQLAlchemy
+
+![Alt text](erd.png?raw=true "ERD")
+
+In MySQL WorkBench
+```
+create database flaskapp
+```
+In db.yaml, update env vars to local setup
