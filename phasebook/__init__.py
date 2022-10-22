@@ -18,6 +18,8 @@ app.register_blueprint(match.bp)
 app.register_blueprint(search.bp)
 app.register_blueprint(playground.bp)
 
-from .v2 import searchV2,playgroundV2
+from .v2 import searchV2
+from .v2.playground import usercrud, interestcrud
 app.register_blueprint(searchV2.bp)
-app.register_blueprint(playgroundV2.bp)
+app.register_blueprint(usercrud.bp)
+app.register_blueprint(interestcrud.bp)

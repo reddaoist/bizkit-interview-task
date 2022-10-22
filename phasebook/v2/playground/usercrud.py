@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
-from ..models import User,db
+from ...models import User,db
 
 
-bp = Blueprint("usersV2", __name__, url_prefix="/v2/users")
+bp = Blueprint("usersv2", __name__, url_prefix="/v2/users")
 
 @bp.route("", strict_slashes=False, methods=['GET', 'POST'])
 @bp.route("<int:id>",methods=['GET', 'PUT', 'DELETE'])
