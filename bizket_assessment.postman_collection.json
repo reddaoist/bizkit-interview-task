@@ -400,7 +400,113 @@
 						},
 						{
 							"name": "interests",
-							"item": []
+							"item": [
+								{
+									"name": "FavNums",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://127.0.0.1:5000/v2/interests/:user_id",
+											"protocol": "http",
+											"host": [
+												"127",
+												"0",
+												"0",
+												"1"
+											],
+											"port": "5000",
+											"path": [
+												"v2",
+												"interests",
+												":user_id"
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "2"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "FavNums",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"favnums\" : [\r\n        1, 2, 3, 4, 5, 6, 7, 21\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://127.0.0.1:5000/v2/interests/:user_id",
+											"protocol": "http",
+											"host": [
+												"127",
+												"0",
+												"0",
+												"1"
+											],
+											"port": "5000",
+											"path": [
+												"v2",
+												"interests",
+												":user_id"
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "11"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "matchV2",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://127.0.0.1:5000/v2/interests/:user_id/match/:match_id",
+											"protocol": "http",
+											"host": [
+												"127",
+												"0",
+												"0",
+												"1"
+											],
+											"port": "5000",
+											"path": [
+												"v2",
+												"interests",
+												":user_id",
+												"match",
+												":match_id"
+											],
+											"variable": [
+												{
+													"key": "user_id",
+													"value": "2"
+												},
+												{
+													"key": "match_id",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					]
 				},
@@ -410,7 +516,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/v2/search?id=5&name=Joe&age=30&occupation=er",
+							"raw": "http://127.0.0.1:5000/v2/search",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -426,19 +532,23 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "5"
+									"value": "5",
+									"disabled": true
 								},
 								{
 									"key": "name",
-									"value": "Joe"
+									"value": "Joe",
+									"disabled": true
 								},
 								{
 									"key": "age",
-									"value": "30"
+									"value": "30",
+									"disabled": true
 								},
 								{
 									"key": "occupation",
-									"value": "er"
+									"value": "er",
+									"disabled": true
 								}
 							]
 						}
