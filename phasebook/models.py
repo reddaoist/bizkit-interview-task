@@ -1,37 +1,27 @@
-from flask_sqlalchemy import SQLAlchemy
-import pymysql
-from .v1 import match, playground, search
-import yaml
+from dataclasses import dataclass
+from . import db,app
 
+@dataclass
+class User(db.Model):
+    id: int
+    name: str
+    age: int
+    occupation: str
 
-def initialize_db(app):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique = True, nullable = False)
+    age = db.Column(db.Integer, nullable = False)
+    occupation = db.Column(db.String(50), nullable = False)
 
-    with open('db.yaml', 'r') as file:
-        env = yaml.safe_load(file)
+    interests = db.relationship('Interest', backref='user')
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+env['mysql']['username']+':'+env['mysql']['password']+'@'+env['mysql']['host']+'/'+env['mysql']['database']
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
-    db = SQLAlchemy(app)
-
+@dataclass       
+class Interest(db.Model):
+    user_id: int
+    fav_num: int
     
-    class User(db.Model):
-        id = db.Column(db.Integer, primary_key=True)
-        name = db.Column(db.String(50), unique = True, nullable = False)
-        age = db.Column(db.Integer, nullable = False)
-        occupation = db.Column(db.String(50), nullable = False)
-
-        interests = db.relationship('Interest', backref='user')
-
-       
-    class Interest(db.Model):
-        user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
-        fav_num = db.Column(db.Integer, nullable = False, primary_key=True)
-
-
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
+    fav_num = db.Column(db.Integer, nullable = False, primary_key=True)
+    
+with app.app_context():        
     db.create_all()
-
-    return app
-
-
