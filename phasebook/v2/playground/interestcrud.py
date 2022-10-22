@@ -57,7 +57,7 @@ def getFavNums(id):
 
 def addFavNums(id, req):
 
-    new_fave_nums = [num for num in req.get('favnums')]
+    new_fave_nums = set([num for num in req.get('favnums')])
     curr_fave_nums = [interest['fav_num'] for interest in getFavNums(id).json]
     
     count = 0
