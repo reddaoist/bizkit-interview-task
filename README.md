@@ -184,3 +184,14 @@ In MySQL WorkBench
 create database flaskapp
 ```
 In db.yaml, update env vars to local setup
+
+Nine endpoints were added:
+- `[GET] v2/users`
+- `[POST] v2/users`
+- `[GET] v2/users/<id>`
+- `[PUT] v2/users/<id>`
+- `[DELETE] v2/users/<id>`
+- `[GET] v2/interests/<id>`
+- `[POST] v2/interests/<id>`
+- `[GET] v2/interests/<id_1>/match/<id_2>`
+- `[GET] v2/search`
