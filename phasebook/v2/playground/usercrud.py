@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from ...models import User,db
+from ...models import User, db, Interest
 
 
 bp = Blueprint("usersv2", __name__, url_prefix="/v2/users")
@@ -109,6 +109,7 @@ def update_user(req_body, id, user_names, old_data):
 # Only deletes user in runtime
 def delete_user(user_data,id):
 
+    Interest.query.filter_by(user_id=id).delete()
     User.query.filter_by(id=id).delete()
     db.session.commit()
     data = {

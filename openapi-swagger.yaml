@@ -34,7 +34,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MatchResponse'          
+                $ref: '#/components/schemas/MatchResponseV1'          
         '404':
           description: Not found
           content:
@@ -864,7 +864,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MatchResponse'          
+                $ref: '#/components/schemas/MatchResponseV2'          
         '404':
           description: Not found
           content:
@@ -875,7 +875,7 @@ paths:
 
 components:
   schemas:
-    MatchResponse:
+    MatchResponseV1:
       type: object
       properties:
         elapsedtime:
@@ -885,6 +885,42 @@ components:
         message:
           type: string
           example: "Match found"
+    MatchResponseV2:
+      type: object
+      properties:
+        elapsedtime:
+          type: number
+          format: float
+          example: 0.05674314498901367
+        message:
+          type: string
+          example: "Match found"
+        fav_nums:
+          type: object
+          properties:
+            user:
+              type: array
+              items:
+                type: integer
+                oneOf:
+                  - example: 123
+                  - example: 222
+                  - example: 54
+                  - example: 98
+                  - example: 15
+                  - example: 3000
+                  - example: 1
+                  - example: 0  
+            other:
+              type: array
+              items:
+                type: integer
+                oneOf:
+                  - example: 123
+                  - example: 15
+                  - example: 54
+                  - example: 1
+            
     UserV1:
       type: object
       properties:

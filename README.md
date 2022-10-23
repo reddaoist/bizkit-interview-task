@@ -28,7 +28,7 @@ Your first task is, of course, to set up the Phasebook repository on your local 
     **macOS/Linux:**
     ```
     python3 -m venv venv
-    . venv/bin/activate
+    source venv/bin/activate
     ```
 
     *Note: Whenever you run this project, you need to activate the virtual environment first.*
