@@ -170,8 +170,6 @@ Five endpoints were added:
 - `[PUT] users/<id>`
 - `[DELETE] users/<id>`
 
-Added a postman collection for the endpoints.
-
 ## Playground v2
 Added DB connection.
 DB used is MySQL
@@ -197,3 +195,4 @@ Nine endpoints were added:
 - `[GET] v2/search`
 
 Added swagger/openapi doc
+Added postman collection 
