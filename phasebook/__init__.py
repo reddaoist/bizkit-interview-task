@@ -5,7 +5,7 @@ import yaml
 
 app = Flask(__name__)
 
-with open('db.yaml', 'r') as file:
+with open('env-vars.yaml', 'r') as file:
     env = yaml.safe_load(file)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+env['mysql']['username']+':'+env['mysql']['password']+'@'+env['mysql']['host']+'/'+env['mysql']['database']

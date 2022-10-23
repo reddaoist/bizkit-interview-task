@@ -1,0 +1,719 @@
+openapi: 3.0.3
+info:
+  title: Bizkit Assessment
+  version: 1.0.11
+servers:
+  - url: http://127.0.0.1:5000
+tags:
+  - name: v1
+    description: Bizkit Assessment.
+  - name: v1/playground
+    description: CRUD operations for practice. Using Data Files and Runtime Memory.
+  - name: v2/playground
+    description: CRUD operations for practice. Using Database.
+paths:
+
+  /match/{match_id}:
+    get:
+      tags:
+        - v1
+      summary: Compare 2 lists
+      description: If all elements in list2 is in list1, then `Match found`, outherwise, `No match`.
+      parameters:
+        - name: match_id
+          in: path
+          description: index of the tuple that contains the 2 lists to compare
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchResponse'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid match id"
+
+  /search:
+    get:
+      tags:
+        - v1
+      summary: Finds Users based on filters
+      description: Find Users based on 4 optional filters - id, name, age, occupation. Will return a list that will match ANY of the filters. Will return the full list if there is no filter.
+      parameters:
+        - name: id
+          in: query
+          description: unique id
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: 5
+        - name: name
+          in: query
+          description: partially matched and is case insensitive
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: "Jo"
+        - name: age
+          in: query
+          description: range of age - 1 to age + 1
+          required: false
+          explode: false
+          schema:
+            type: integer
+            example: 5
+        - name: occupation
+          in: query
+          description: partially matched and is case insensitive
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: "er"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: "#/components/schemas/User1"
+                    - $ref: "#/components/schemas/User2"
+  /v2/search:
+    get:
+      tags:
+        - v2/playground
+      summary: Finds Users based on filters
+      description: Find Users based on 4 optional filters - id, name, age, occupation. Will return a list that will match ANY of the filters. Will return the full list if there is no filter.
+      parameters:
+        - name: id
+          in: query
+          description: unique id
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: 5
+        - name: name
+          in: query
+          description: partially matched and is case insensitive
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: "Jo"
+        - name: age
+          in: query
+          description: range of age - 1 to age + 1
+          required: false
+          explode: false
+          schema:
+            type: integer
+            example: 5
+        - name: occupation
+          in: query
+          description: partially matched and is case insensitive
+          required: false
+          explode: false
+          schema:
+            type: string
+            example: "er"
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: "#/components/schemas/User1"
+                    - $ref: "#/components/schemas/User2"
+
+  /users:
+    get:
+      tags:
+        - v1/playground
+      summary: Retreives the full list of users
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: "#/components/schemas/User1"
+                    - $ref: "#/components/schemas/User2"
+  
+    post:
+      tags:
+        - v1/playground
+      summary: Adds a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUserRes'
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+                schema:
+                    type: string
+                    example: "Name already exists"
+  /users/{id}:
+    get:
+      tags:
+        - v1/playground
+      summary: Retreive user data by id
+      description: Retreives user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 3
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User3'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+    put:
+      tags:
+        - v1/playground
+      summary: Update user data by id
+      description: Updates user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserRes'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+    delete:
+      tags:
+        - v1/playground
+      summary: Delete user data by id
+      description: Deletes user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 7
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteUserRes'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+
+  /v2/users:
+    get:
+      tags:
+        - v2/playground
+      summary: Retreives the full list of users
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: "#/components/schemas/User1"
+                    - $ref: "#/components/schemas/User2"
+  
+    post:
+      tags:
+        - v2/playground
+      summary: Adds a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewUserRes'
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+                schema:
+                    type: string
+                    example: "Name already exists"
+  /v2/users/{id}:
+    get:
+      tags:
+        - v2/playground
+      summary: Retreive user data by id
+      description: Retreives user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 3
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User3'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+    put:
+      tags:
+        - v2/playground
+      summary: Update user data by id
+      description: Updates user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateUserRes'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+    delete:
+      tags:
+        - v2/playground
+      summary: Delete user data by id
+      description: Deletes user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 7
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteUserRes'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+
+  /v2/interests/{id}:
+    get:
+      tags:
+        - v2/playground
+      summary: Retreive user's favorite numbers by id
+      description: Retreives user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf: 
+                    - $ref: "#/components/schemas/FavNum1"
+                    - $ref: "#/components/schemas/FavNum2"
+                    - $ref: "#/components/schemas/FavNum3"
+                    
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+    post:
+      tags:
+        - v2/playground
+      summary: Adds user's favorite numbers by id
+      description: Adds user data based on the path variable
+      parameters:
+        - name: id
+          in: path
+          description: unique id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFavNumsReq'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewFavNumsRes'
+                    
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id"
+  /v2/interests/{id_1}/match/{id_2}:
+    get:
+      tags:
+        - v2/playground
+      summary: Compare FavNums of 2 users
+      description: If all FavNums of id_2 is in the FavNums of id_1, then `Match found`, outherwise, `No match`.
+      parameters:
+        - name: id_1
+          in: path
+          description: user 1
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+        - name: id_2
+          in: path
+          description: user 2
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 2
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchResponse'          
+        '404':
+          description: Not found
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Invalid id/s"
+
+components:
+  schemas:
+    MatchResponse:
+      type: object
+      properties:
+        elapsedtime:
+          type: number
+          format: float
+          example: 0.05674314498901367
+        message:
+          type: string
+          example: "Match found"
+    NewUser:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Joe Doesnt"
+        age:
+          type: integer
+          format: int64
+          example: 27
+        occupation:
+          type: string
+          example: "Architect"
+    DeleteUserRes:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Existing User Deleted"
+        data:
+          $ref: '#/components/schemas/User7'
+    NewUserRes:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "New User Added"
+        data:
+          $ref: '#/components/schemas/User7'
+    UpdateUserRes:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Existing User Updated"
+        data:
+          type: object
+          properties:
+            old:
+              $ref: '#/components/schemas/User2'
+            updated:
+              $ref: '#/components/schemas/UserUpdated'
+    User1:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        age:
+          type: integer
+          format: int64
+          example: 30
+        occupation:
+          type: string
+          example: "Software Developer"
+    User2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 2
+        name:
+          type: string
+          example: "Jane Doe"
+        age:
+          type: integer
+          format: int64
+          example: 30
+        occupation:
+          type: string
+          example: "Manager"
+    User3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 3
+        name:
+          type: string
+          example: "John Doe"
+        age:
+          type: integer
+          format: int64
+          example: 30
+        occupation:
+          type: string
+          example: "Programmer"
+    User7:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 7
+        name:
+          type: string
+          example: "Joe Doesnt"
+        age:
+          type: integer
+          format: int64
+          example: 27
+        occupation:
+          type: string
+          example: "Architect"
+    UserUpdated:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 2
+        name:
+          type: string
+          example: "Jane Doesnt"
+        age:
+          type: integer
+          format: int64
+          example: 31
+        occupation:
+          type: string
+          example: "Senior Manager"
+    FavNum1:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          example: 2
+        fav_num:
+          type: integer
+          format: int64
+          example: 24
+    FavNum2:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          example: 2
+        fav_num:
+          type: integer
+          format: int64
+          example: 14
+    FavNum3:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          format: int64
+          example: 2
+        fav_num:
+          type: integer
+          format: int64
+          example: 4
+    NewFavNumsReq:
+      type: object
+      properties:
+        favnums:
+          type: array
+          items:
+            type: integer
+            oneOf:
+              - example: 123
+              - example: 222
+              - example: 54
+              - example: 98
+              - example: 15
+              - example: 15
+              - example: 3000
+              - example: 1
+              - example: 0
+    NewFavNumsRes:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "8 Favorite Numbers Added"
+        data:
+          type: array
+          items:
+            type: integer
+            oneOf:
+              - example: 123
+              - example: 222
+              - example: 54
+              - example: 98
+              - example: 15
+              - example: 3000
+              - example: 1
+              - example: 0
+
+
+
+
+
+

@@ -24,7 +24,7 @@ def search(id = None):
     else:
         
         if id not in user_ids:
-                return "Invalid match id", 404
+                return "Invalid id", 404
         else:
 
             user_data = jsonify(User.query.filter_by(id=id).first())
