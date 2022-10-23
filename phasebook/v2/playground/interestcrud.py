@@ -57,11 +57,23 @@ def getFavNums(id):
 
 def addFavNums(id, req):
 
+    count = 0
+    added = []
+    
+
+    if not req.get('favnums'):
+        msg = str(count) + ' Favorite Numbers Added'
+        data = {
+            'message' : msg,
+            'data'  : added
+        }
+        return data, 200
+
+
     new_fave_nums = set([num for num in req.get('favnums')])
     curr_fave_nums = [interest['fav_num'] for interest in getFavNums(id).json]
     
-    count = 0
-    added = []
+
 
     for num in new_fave_nums:
         if num not in curr_fave_nums:

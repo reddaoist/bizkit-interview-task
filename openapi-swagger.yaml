@@ -65,7 +65,7 @@ paths:
           explode: false
           schema:
             type: string
-            example: "Jo"
+            example: "Joe"
         - name: age
           in: query
           description: range of age - 1 to age + 1
@@ -73,7 +73,7 @@ paths:
           explode: false
           schema:
             type: integer
-            example: 5
+            example: 30
         - name: occupation
           in: query
           description: partially matched and is case insensitive
@@ -81,7 +81,7 @@ paths:
           explode: false
           schema:
             type: string
-            example: "er"
+            example: "Arc"
       responses:
         '200':
           description: Successful operation
@@ -90,9 +90,46 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf: 
-                    - $ref: "#/components/schemas/User1"
-                    - $ref: "#/components/schemas/User2"
+                  $ref: "#/components/schemas/UserV1"
+                example:  [
+                            {
+                                "age": 31,
+                                "id": "5",
+                                "name": "Jane Smith",
+                                "occupation": "Manager"
+                            },
+                            {
+                                "age": 25,
+                                "id": "3",
+                                "name": "Joe Doe",
+                                "occupation": "Designer"
+                            },
+                            {
+                                "age": 24,
+                                "id": "6",
+                                "name": "Joe Smith",
+                                "occupation": "Designer"
+                            },
+                            {
+                                "age": 29,
+                                "id": "1",
+                                "name": "John Doe",
+                                "occupation": "Developer"
+                            },
+                            {
+                                "age": 30,
+                                "id": "2",
+                                "name": "Jane Doe",
+                                "occupation": "Engineer"
+                            },
+                            {
+                                "age": 28,
+                                "id": "4",
+                                "name": "John Smith",
+                                "occupation": "Architect"
+                            }
+                        ]
+                  
   /v2/search:
     get:
       tags:
@@ -115,7 +152,7 @@ paths:
           explode: false
           schema:
             type: string
-            example: "Jo"
+            example: "Joe"
         - name: age
           in: query
           description: range of age - 1 to age + 1
@@ -123,7 +160,7 @@ paths:
           explode: false
           schema:
             type: integer
-            example: 5
+            example: 30
         - name: occupation
           in: query
           description: partially matched and is case insensitive
@@ -131,7 +168,7 @@ paths:
           explode: false
           schema:
             type: string
-            example: "er"
+            example: "Arc"
       responses:
         '200':
           description: Successful operation
@@ -140,9 +177,39 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf: 
-                    - $ref: "#/components/schemas/User1"
-                    - $ref: "#/components/schemas/User2"
+                  $ref: "#/components/schemas/UserV2"
+                example:  [
+                            {
+                                "age": 31,
+                                "id": 5,
+                                "name": "Jane Smith",
+                                "occupation": "Manager"
+                            },
+                            {
+                                "age": 25,
+                                "id": 3,
+                                "name": "Joe Doe",
+                                "occupation": "Designer"
+                            },
+                            {
+                                "age": 29,
+                                "id": 1,
+                                "name": "John Doe",
+                                "occupation": "Developer"
+                            },
+                            {
+                                "age": 30,
+                                "id": 2,
+                                "name": "Jane Doe",
+                                "occupation": "Engineer"
+                            },
+                            {
+                                "age": 28,
+                                "id": 4,
+                                "name": "John Smith",
+                                "occupation": "Architect"
+                            }
+                        ]
 
   /users:
     get:
@@ -157,9 +224,45 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf: 
-                    - $ref: "#/components/schemas/User1"
-                    - $ref: "#/components/schemas/User2"
+                  $ref: "#/components/schemas/UserV1"
+                example: [
+                  {
+                      "age": 29,
+                      "id": "1",
+                      "name": "John Doe",
+                      "occupation": "Developer"
+                  },
+                  {
+                      "age": 30,
+                      "id": "2",
+                      "name": "Jane Doe",
+                      "occupation": "Engineer"
+                  },
+                  {
+                      "age": 25,
+                      "id": "3",
+                      "name": "Joe Doe",
+                      "occupation": "Designer"
+                  },
+                  {
+                      "age": 28,
+                      "id": "4",
+                      "name": "John Smith",
+                      "occupation": "Architect"
+                  },
+                  {
+                      "age": 31,
+                      "id": "5",
+                      "name": "Jane Smith",
+                      "occupation": "Manager"
+                  },
+                  {
+                      "age": 24,
+                      "id": "6",
+                      "name": "Joe Smith",
+                      "occupation": "Designer"
+                  }
+                ]
   
     post:
       tags:
@@ -169,21 +272,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewUser'
+              $ref: '#/components/schemas/NewUserReq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NewUserRes'
+                $ref: '#/components/schemas/NewUserResV1'
+              example:  {
+                  "data": {
+                      "age": 27,
+                      "id": "7",
+                      "name": "Joe Doesnt",
+                      "occupation": "Architect"
+                  },
+                  "message": "New User Added"
+              }
         '500':
           description: Internal server error
           content:
             text/plain:
                 schema:
                     type: string
-                    example: "Name already exists"
+                examples:
+                  taken_name:
+                    value: "Name already exists"
+                  incomplete_json_req:
+                    value: "Invalid JSON"
   /users/{id}:
     get:
       tags:
@@ -205,7 +321,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User3'          
+                $ref: '#/components/schemas/UserV1'          
+              example:  {
+                  "age": 25,
+                  "id": "3",
+                  "name": "Joe Doe",
+                  "occupation": "Designer"
+              }
         '404':
           description: Not found
           content:
@@ -226,14 +348,71 @@ paths:
           schema:
             type: integer
             format: int64
-            example: 2
+            example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserReq'
+            examples: 
+              age_only:
+                value: {
+                  "age" : 40
+                }
+              name_only:
+                value: {
+                  "name" : "Meta Worldpeace"
+                }
+              occupation_only:
+                value: {
+                  "occupation" : "Professional Athlete"
+                }
+              age_and_name:
+                value: {
+                  "age" : 40,
+                  "name" : "Meta Worldpeace"
+                }
+              age_and_occupation:
+                value: {
+                  "age" : 40,
+                  "occupation" : "Professional Athlete"
+                }
+              name_and_occupation:
+                value: {
+                  "name" : "Meta Worldpeace",
+                  "occupation" : "Professional Athlete"
+                }
+              all_three:
+                value: {
+                  "age" : 40,
+                  "name" : "Meta Worldpeace",
+                  "occupation" : "Professional Athlete"
+                }
+
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateUserRes'          
+                $ref: '#/components/schemas/UpdateUserResV1'   
+              example: {
+                "message": "Existing User Updated",
+                "data": {
+                  "old": {
+                    "age": 25,
+                    "id": "3",
+                    "name": "Joe Doe",
+                    "occupation": "Designer"
+                  },
+                  "updated": {
+                    "age" : 40,
+                    "id": "3",
+                    "name" : "Meta Worldpeace",
+                    "occupation" : "Professional Athlete"
+                  }
+                }
+              }         
         '404':
           description: Not found
           content:
@@ -241,6 +420,13 @@ paths:
                 schema:
                   type: string
                   example: "Invalid id"
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Name already exists"
     delete:
       tags:
         - v1/playground
@@ -261,7 +447,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeleteUserRes'          
+                $ref: '#/components/schemas/DeleteUserResV1'
+              example: {
+                "message": "Existing User Deleted",
+                "data": {
+                  "id": "7",
+                  "name": "Joshua Pedere",
+                  "age": 26,
+                  "occupation": "Programmer"
+                }
+              }          
         '404':
           description: Not found
           content:
@@ -283,9 +478,57 @@ paths:
               schema:
                 type: array
                 items:
-                  oneOf: 
-                    - $ref: "#/components/schemas/User1"
-                    - $ref: "#/components/schemas/User2"
+                  $ref: "#/components/schemas/UserV2"
+                example:  [
+                            {
+                                "age": 29,
+                                "id": 1,
+                                "name": "John Doe",
+                                "occupation": "Developer"
+                            },
+                            {
+                                "age": 30,
+                                "id": 2,
+                                "name": "Jane Doe",
+                                "occupation": "Engineer"
+                            },
+                            {
+                                "age": 25,
+                                "id": 3,
+                                "name": "Joe Doe",
+                                "occupation": "Designer"
+                            },
+                            {
+                                "age": 28,
+                                "id": 4,
+                                "name": "John Smith",
+                                "occupation": "Architect"
+                            },
+                            {
+                                "age": 31,
+                                "id": 5,
+                                "name": "Jane Smith",
+                                "occupation": "Manager"
+                            },
+                            {
+                                "age": 26,
+                                "id": 11,
+                                "name": "Rhuver Pedere",
+                                "occupation": "Software Developer"
+                            },
+                            {
+                                "age": 26,
+                                "id": 12,
+                                "name": "Joshua Pedere",
+                                "occupation": "Software Developer"
+                            },
+                            {
+                                "age": 26,
+                                "id": 13,
+                                "name": "RJ Pedere",
+                                "occupation": "Software Developer"
+                            }
+                        ]
   
     post:
       tags:
@@ -295,21 +538,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewUser'
+              $ref: '#/components/schemas/NewUserReq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NewUserRes'
+                $ref: '#/components/schemas/NewUserResV2'
+              example: {
+                "message": "New User Added",
+                "data": {
+                  "id": 7,
+                  "name": "Joe Doesnt",
+                  "age": 27,
+                  "occupation": "Architect"
+                }
+              }
         '500':
           description: Internal server error
           content:
             text/plain:
                 schema:
                     type: string
-                    example: "Name already exists"
+                examples:
+                  taken_name:
+                    value: "Name already exists"
+                  incomplete_json_req:
+                    value: "Invalid JSON"
   /v2/users/{id}:
     get:
       tags:
@@ -331,7 +587,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User3'          
+                $ref: '#/components/schemas/UserV2'          
+              example:  {
+                  "age": 25,
+                  "id": 3,
+                  "name": "Joe Doe",
+                  "occupation": "Designer"
+              }
         '404':
           description: Not found
           content:
@@ -352,14 +614,71 @@ paths:
           schema:
             type: integer
             format: int64
-            example: 2
+            example: 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserReq'
+            examples: 
+              age_only:
+                value: {
+                  "age" : 40
+                }
+              name_only:
+                value: {
+                  "name" : "Meta Worldpeace"
+                }
+              occupation_only:
+                value: {
+                  "occupation" : "Professional Athlete"
+                }
+              age_and_name:
+                value: {
+                  "age" : 40,
+                  "name" : "Meta Worldpeace"
+                }
+              age_and_occupation:
+                value: {
+                  "age" : 40,
+                  "occupation" : "Professional Athlete"
+                }
+              name_and_occupation:
+                value: {
+                  "name" : "Meta Worldpeace",
+                  "occupation" : "Professional Athlete"
+                }
+              all_three:
+                value: {
+                  "age" : 40,
+                  "name" : "Meta Worldpeace",
+                  "occupation" : "Professional Athlete"
+                }
+
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdateUserRes'          
+                $ref: '#/components/schemas/UpdateUserResV2'   
+              example: {
+                "message": "Existing User Updated",
+                "data": {
+                  "old": {
+                    "age": 25,
+                    "id": 3,
+                    "name": "Joe Doe",
+                    "occupation": "Designer"
+                  },
+                  "updated": {
+                    "age" : 40,
+                    "id": 3,
+                    "name" : "Meta Worldpeace",
+                    "occupation" : "Professional Athlete"
+                  }
+                }
+              }         
         '404':
           description: Not found
           content:
@@ -367,6 +686,13 @@ paths:
                 schema:
                   type: string
                   example: "Invalid id"
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+                schema:
+                  type: string
+                  example: "Name already exists"
     delete:
       tags:
         - v2/playground
@@ -387,7 +713,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeleteUserRes'          
+                $ref: '#/components/schemas/DeleteUserResV2'
+              example: {
+                "message": "Existing User Deleted",
+                "data": {
+                  "id": 7,
+                  "name": "Joshua Pedere",
+                  "age": 26,
+                  "occupation": "Programmer"
+                }
+              }          
         '404':
           description: Not found
           content:
@@ -410,7 +745,7 @@ paths:
           schema:
             type: integer
             format: int64
-            example: 2
+            example: 1
       responses:
         '200':
           description: Successful operation
@@ -418,12 +753,47 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
-                  oneOf: 
-                    - $ref: "#/components/schemas/FavNum1"
-                    - $ref: "#/components/schemas/FavNum2"
-                    - $ref: "#/components/schemas/FavNum3"
-                    
+                items: 
+                  $ref: "#/components/schemas/FavNum"
+                example:  [
+                            {
+                                "fav_num": 1,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 2,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 3,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 4,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 5,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 6,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 7,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 20,
+                                "user_id": 1
+                            },
+                            {
+                                "fav_num": 21,
+                                "user_id": 1
+                            }
+                        ]
+
         '404':
           description: Not found
           content:
@@ -515,7 +885,32 @@ components:
         message:
           type: string
           example: "Match found"
-    NewUser:
+    UserV1:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+          format: int64
+        occupation:
+          type: string
+    UserV2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+          format: int64
+        occupation:
+          type: string
+    NewUserReq:
       type: object
       properties:
         name:
@@ -528,23 +923,40 @@ components:
         occupation:
           type: string
           example: "Architect"
-    DeleteUserRes:
-      type: object
-      properties:
-        message:
-          type: string
-          example: "Existing User Deleted"
-        data:
-          $ref: '#/components/schemas/User7'
-    NewUserRes:
+      required:
+        - name
+        - age
+        - occupation
+    NewUserResV1:
       type: object
       properties:
         message:
           type: string
           example: "New User Added"
         data:
-          $ref: '#/components/schemas/User7'
-    UpdateUserRes:
+          $ref: '#/components/schemas/UserV1'
+    NewUserResV2:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "New User Added"
+        data:
+          $ref: '#/components/schemas/UserV2'
+    UpdateUserReq:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Joe Doesnt"
+        age:
+          type: integer
+          format: int64
+          example: 27
+        occupation:
+          type: string
+          example: "Architect"
+    UpdateUserResV1:
       type: object
       properties:
         message:
@@ -554,127 +966,47 @@ components:
           type: object
           properties:
             old:
-              $ref: '#/components/schemas/User2'
+              $ref: '#/components/schemas/UserV1'
             updated:
-              $ref: '#/components/schemas/UserUpdated'
-    User1:
+              $ref: '#/components/schemas/UserV1'
+    UpdateUserResV2:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        name:
+        message:
           type: string
-          example: "John Doe"
-        age:
-          type: integer
-          format: int64
-          example: 30
-        occupation:
-          type: string
-          example: "Software Developer"
-    User2:
+          example: "Existing User Updated"
+        data:
+          type: object
+          properties:
+            old:
+              $ref: '#/components/schemas/UserV2'
+            updated:
+              $ref: '#/components/schemas/UserV2'
+    DeleteUserResV1:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 2
-        name:
+        message:
           type: string
-          example: "Jane Doe"
-        age:
-          type: integer
-          format: int64
-          example: 30
-        occupation:
-          type: string
-          example: "Manager"
-    User3:
+          example: "Existing User Deleted"
+        data:
+          $ref: '#/components/schemas/UserV1'
+    DeleteUserResV2:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 3
-        name:
+        message:
           type: string
-          example: "John Doe"
-        age:
-          type: integer
-          format: int64
-          example: 30
-        occupation:
-          type: string
-          example: "Programmer"
-    User7:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 7
-        name:
-          type: string
-          example: "Joe Doesnt"
-        age:
-          type: integer
-          format: int64
-          example: 27
-        occupation:
-          type: string
-          example: "Architect"
-    UserUpdated:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 2
-        name:
-          type: string
-          example: "Jane Doesnt"
-        age:
-          type: integer
-          format: int64
-          example: 31
-        occupation:
-          type: string
-          example: "Senior Manager"
-    FavNum1:
+          example: "Existing User Deleted"
+        data:
+          $ref: '#/components/schemas/UserV2'
+    FavNum:
       type: object
       properties:
         user_id:
           type: integer
           format: int64
-          example: 2
         fav_num:
           type: integer
           format: int64
-          example: 24
-    FavNum2:
-      type: object
-      properties:
-        user_id:
-          type: integer
-          format: int64
-          example: 2
-        fav_num:
-          type: integer
-          format: int64
-          example: 14
-    FavNum3:
-      type: object
-      properties:
-        user_id:
-          type: integer
-          format: int64
-          example: 2
-        fav_num:
-          type: integer
-          format: int64
-          example: 4
     NewFavNumsReq:
       type: object
       properties:
