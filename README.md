@@ -183,7 +183,7 @@ In MySQL WorkBench
 ```
 create database flaskapp
 ```
-In db.yaml, update env vars to local setup
+In env-vars.yaml, update values for local setup
 
 Nine endpoints were added:
 - `[GET] v2/users`
@@ -195,3 +195,5 @@ Nine endpoints were added:
 - `[POST] v2/interests/<id>`
 - `[GET] v2/interests/<id_1>/match/<id_2>`
 - `[GET] v2/search`
+
+Added swagger/openapi doc
