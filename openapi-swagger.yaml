@@ -12,7 +12,20 @@ tags:
   - name: v2/playground
     description: CRUD operations for practice. Using Database.
 paths:
-
+  /:
+    get:
+      tags:
+          - v1
+      summary: Hello World!
+      description: Home
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            text/plain:
+              schema:
+                  type: string
+                  example: "Hello World!"
   /match/{match_id}:
     get:
       tags:
