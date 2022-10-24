@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import pymysql
 import yaml
 
 app = Flask(__name__)
+CORS(app)
 
 with open('env-vars.yaml', 'r') as file:
     env = yaml.safe_load(file)

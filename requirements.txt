@@ -19,3 +19,4 @@ flask-mysqldb==1.0.1
 pyyaml==6.0
 flask-sqlalchemy
 pymysql
+flask-cors
