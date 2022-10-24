@@ -13,6 +13,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+@app.route("/")
+def hello():
+    return "Hello World!"
+
 from .v1 import match, playground, search
 app.register_blueprint(match.bp)
 app.register_blueprint(search.bp)
