@@ -22,7 +22,7 @@ Your first task is, of course, to set up the Phasebook repository on your local 
    **Windows:**
     ```
     py -3 -m venv venv
-    source venv\Scripts\activate
+    source venv/Scripts/activate
     ```
 
     **macOS/Linux:**
