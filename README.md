@@ -22,13 +22,13 @@ Your first task is, of course, to set up the Phasebook repository on your local 
    **Windows:**
     ```
     py -3 -m venv venv
-    venv\Scripts\activate
+    source venv\Scripts\activate
     ```
 
     **macOS/Linux:**
     ```
     python3 -m venv venv
-    source venv/bin/activate
+    venv/bin/activate
     ```
 
     *Note: Whenever you run this project, you need to activate the virtual environment first.*
