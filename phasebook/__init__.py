@@ -19,10 +19,11 @@ db = SQLAlchemy(app)
 def hello():
     return "Hello World!"
 
-from .v1 import match, playground, search
+from .v1 import match, playground, schedule, search
 app.register_blueprint(match.bp)
 app.register_blueprint(search.bp)
 app.register_blueprint(playground.bp)
+app.register_blueprint(schedule.bp)
 
 from .v2 import searchV2
 from .v2.playground import usercrud, interestcrud
