@@ -172,7 +172,14 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ScheduleRes"
-              
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+                schema:
+                    type: string
+                example: "Invalid JSON"
+
   /v2/search:
     get:
       tags:

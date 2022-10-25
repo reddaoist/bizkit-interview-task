@@ -12,42 +12,46 @@ bp = Blueprint("schedule", __name__, url_prefix="/schedule")
 def schedule(user_id):
     ids = [int(e.get('user_id')) for e in SCHEDULES]
 
+    verified = verify_json(request.json)
     
+    if verified: 
 
-    if user_id not in ids:
+        if user_id not in ids:
 
-        schedules = []
-        schedule = request.json['start'] + " - " + request.json['end']
-        schedules.append(schedule) 
+            schedules = []
+            schedule = request.json['start'] + " - " + request.json['end']
+            schedules.append(schedule) 
 
-        data = {
-            "user_id" : str(user_id),
-            "schedules" : schedules
-        }
+            data = {
+                "user_id" : str(user_id),
+                "schedules" : schedules
+            }
 
-        SCHEDULES.append(data)
-        return data, 200
+            SCHEDULES.append(data)
+            return data, 200
+        else:
+
+            index = ids.index(user_id)
+
+            schedules = SCHEDULES[index].get('schedules')
+            schedule = request.json.get('start') + " - " + request.json.get('end')
+
+            if schedule not in schedules:
+                schedules.append(schedule)
+
+            schedules = sorted(schedules) 
+            schedules = fuse(schedules)   
+
+            data = {
+                "user_id" : str(user_id),
+                "schedules" : schedules
+            }
+
+            SCHEDULES[index] = data
+                
+            return data, 200
     else:
-
-        index = ids.index(user_id)
-
-        schedules = SCHEDULES[index].get('schedules')
-        schedule = request.json['start'] + " - " + request.json['end']
-
-        if schedule not in schedules:
-            schedules.append(schedule)
-
-        schedules = sorted(schedules) 
-        schedules = fuse(schedules)   
-
-        data = {
-            "user_id" : str(user_id),
-            "schedules" : schedules
-        }
-
-        SCHEDULES[index] = data
-            
-        return data, 200
+        return "Invalid JSON", 500
 
 def fuse(schedules):
 
@@ -81,4 +85,9 @@ def fuse(schedules):
 
     return fused
 
-         
+def verify_json(json):
+
+    if json.get('start') and json.get('end'):
+        return True
+    else:
+        return False        
